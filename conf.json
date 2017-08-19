@@ -1,0 +1,30 @@
+{
+	"EQUIPEMENTS": {
+		"ID1": {
+			"IP": "127.0.0.1",
+			"NOM": "eqt1",
+			"LOGIN": "root",
+			"MDP": "root"
+		},
+		"ID2": {
+			"IP": "128.0.0.1",
+			"NOM": "eqt2",
+			"LOGIN": "root",
+			"MDP": "root"
+		}
+	},
+	"FICHIERS": {
+		"ID1": {
+			"NOM": "Fichier1",
+			"TYPE": "F",
+			"EQUIPEMENT": "ID1",
+			"PATH": "/var/log/test.txt"
+		},
+		"ID2": {
+			"NOM": "Fichier2",
+			"TYPE": "F",
+			"EQUIPEMENT": "ID1",
+			"PATH": "/var/log/test2.txt"
+		}
+	}
+}
