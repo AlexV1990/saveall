@@ -4,7 +4,6 @@ import locale
 from dialog import Dialog
 from modconf import *
 
-
 if __name__ == '__main__':
 
 
@@ -89,13 +88,17 @@ if __name__ == '__main__':
                                      ("Type", 3, 1, "", 3, 8, 25, 25)])
 
           #
-          #Choix de l'équipement sur lequel aller sauvegarder le fichier
-          list_eq = get_list_equipment_from_conf()
+          #Choix des équipements sur lequel aller sauvegarder le fichier
+          list_eq = get_list_equipment_from_conf_for_checklist()
 
           if len(list_eq) > 0: 
-            code, tags = d.checklist("Equipement(s) sur le(s)quel(s) sauvegarder", choices=list_eq, title="Sélection de l'équipement",backtitle="Sauvegarde de fichiers ")   
+            code, tags = d.checklist("Equipement concerné", choices=list_eq, title="Sélection de l'équipement", backtitle="Sauvegarde de fichiers ")   
           else:
-            d.msgbox("Pas d'équipement à supprimer...")  
+            d.msgbox("Pas d'équipement enregistré...")  
+
+          #Ajout du fichier en conf
+          list_menu30.append(tags)
+          add_file_to_conf(list_menu30)
         
         #
         # Supprimer un fichier
