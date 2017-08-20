@@ -1,6 +1,10 @@
 [HOW TO RUN]
 
+Python 3 required
+
+<code>
 ./saveall.py
+</code>
 
 [STARTUP CONFIG]
 
