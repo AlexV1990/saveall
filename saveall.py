@@ -2,10 +2,9 @@
 
 import locale
 from dialog import Dialog
-from modconf import *
+from utils.modconf import *
 
 if __name__ == '__main__':
-
 
   locale.setlocale(locale.LC_ALL, '')
   d = Dialog(dialog="dialog")
