@@ -52,6 +52,8 @@ if __name__ == '__main__':
                                      ("Login", 4, 1, "", 4, 8, 25, 25),
                                      ("MDP", 5, 1, "", 5, 8, 25, 25)])
 
+          add_equipment_to_conf(list_menu20)
+
         #
         # Supprimer un équipement
         if tag_menu2 == "21":

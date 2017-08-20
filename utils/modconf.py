@@ -157,7 +157,7 @@ def delete_equipment_from_conf(equipment_name):
 
 
 '''
-add_file_to_conf: ajoute un fichier de configuration
+add_file_to_conf: ajoute un fichier dans le fichier de configuration
 entrée: liste avec les paramètres du fichier [nom, path, type, equipement]
 sortie: 0 si OK, -1 si le nom existe déjà, -2 si autre erreur
 '''
@@ -190,5 +190,48 @@ def add_file_to_conf(list_params_file):
 
     return 0
   
+  except:
+    return -1
+
+
+
+
+
+'''
+add_equipment_to_conf: ajoute un équipement dans le fichier de configuration
+entrée: liste avec les paramètres de l'équipement [nom, IP, type, login, MDP]
+sortie: 0 si OK, -1 si le nom existe déjà, -2 si autre erreur
+'''
+def add_equipment_to_conf(list_params_equipment):
+
+  equipment_name = list_params_equipment[0]
+  equipment_ip = list_params_equipment[1]
+  equipment_type = list_params_equipment[2]
+  equipment_login = list_params_equipment[3]
+  equipment_mdp = list_params_equipment[4]
+
+  try:
+    with open(CONF_FILE_NAME) as data_file:    
+          data = json.load(data_file)
+
+    #vérification de l'unicité du nom
+    for element in data["EQUIPEMENTS"]:
+        if equipment_name == data["EQUIPEMENTS"][element]["NOM"]:
+            return -1
+
+    #on formate les paramètres du fichier en JSON
+    data["EQUIPEMENTS"][equipment_name] = {}
+    data["EQUIPEMENTS"][equipment_name]["NOM"] = equipment_name
+    data["EQUIPEMENTS"][equipment_name]["IP"] = equipment_ip
+    data["EQUIPEMENTS"][equipment_name]["TYPE"] = equipment_type  
+    data["EQUIPEMENTS"][equipment_name]["LOGIN"] = equipment_login
+    data["EQUIPEMENTS"][equipment_name]["MDP"] = equipment_mdp
+
+    #On modifie le fichier de configuration
+    with open(CONF_FILE_NAME, 'w') as data_file:
+        data = json.dump(data, data_file)
+
+    return 0
+
   except:
     return -1
