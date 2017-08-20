@@ -2,10 +2,11 @@
 # coding: utf-8
 
 '''
-Fonctions de manipulation du fichier de configuration
+Fonctions de manipulation et vérifications du fichier de configuration
 '''
 
 import json
+import utils.misc as misc
 
 CONF_FILE_NAME = "conf/conf.json"
 
@@ -235,3 +236,53 @@ def add_equipment_to_conf(list_params_equipment):
 
   except:
     return -1
+
+
+
+
+
+'''
+check_list_equipment_valid: vérifie que la demande de création d'ajout d'un équipement est valide
+entrée: liste de paramètres concernant l'équipement [nom, IP, type, login, MDP]
+sortie: retourne 0 si l'équipement peut être ajouté
+                 -1 si le nom de l'équipement n'est pas unique
+                 -2 si l'IP fournie n'est pas valable
+                 -3 si l'IP n'est pas unique
+                 -4 si le type n'est pas "DB" (base de données), "S" (serveur), "R" (équipement réseau)
+                 -5 si tous les champs ne sont pas remplis
+
+'''
+def check_list_equipment_valid(list_params_equipment):
+
+  equipment_name = list_params_equipment[0]
+  equipment_ip = list_params_equipment[1]
+  equipment_type = list_params_equipment[2]
+  equipment_login = list_params_equipment[3]
+  equipment_mdp = list_params_equipment[4]
+
+  #Vérification que tous les champs sont remplis
+  if equipment_name == "" or equipment_ip == "" or equipment_type == "" or equipment_login == "" or equipment_mdp == "":
+    return -5
+
+  #Ouverture du fichier de conf
+  with open(CONF_FILE_NAME) as data_file:    
+        data = json.load(data_file)
+
+  #Vérification de l'unicité du nom
+  if equipment_name in data["EQUIPEMENTS"]:
+    return -1
+
+  #Vérification de la validité de l'IP
+  if misc.is_valid_ipv4_address(equipment_ip) == False:
+    return -2
+
+  #Vérification de l'unicité de l'IP dans le fichier de conf
+  for element in data["EQUIPEMENTS"]:
+    if equipment_ip in data["EQUIPEMENTS"][element]["IP"]:
+      return -3
+
+  #Vérification du type d'équipement
+  if equipment_type != "DB" and equipment_type != "S" and equipment_type != "R":
+    return -4
+
+  return 0 

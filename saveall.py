@@ -1,12 +1,11 @@
 #! /usr/bin/env python3
 
-import locale
 from dialog import Dialog
 from utils.modconf import *
+from utils.misc import *
 
 if __name__ == '__main__':
 
-  locale.setlocale(locale.LC_ALL, '')
   d = Dialog(dialog="dialog")
   d.set_background_title("Saveall script")
 
@@ -52,8 +51,21 @@ if __name__ == '__main__':
                                      ("Login", 4, 1, "", 4, 8, 25, 25),
                                      ("MDP", 5, 1, "", 5, 8, 25, 25)])
 
-          add_equipment_to_conf(list_menu20)
-
+          is_list_valid = check_list_equipment_valid(list_menu20)
+          if is_list_valid  == 0:
+            add_equipment_to_conf(list_menu20)
+            d.msgbox("Equipement ajouté avec succès.")
+          else:
+            if is_list_valid == -1:
+              d.msgbox("Equipement non ajouté: le nom fourni existe déjà.")
+            if is_list_valid == -2:
+              d.msgbox("Equipement non ajouté: l'IP fournie n'est pas valable")
+            if is_list_valid == -3:
+              d.msgbox("Equipement non ajouté: l'IP fournie existe déjà")
+            if is_list_valid == -4: 
+              d.msgbox("Equipement non ajouté: type non reconnu (DB, S ou R") 
+            if is_list_valid == -5: 
+              d.msgbox("Equipement non ajouté: tous les champs doivent être complétés.")
         #
         # Supprimer un équipement
         if tag_menu2 == "21":
